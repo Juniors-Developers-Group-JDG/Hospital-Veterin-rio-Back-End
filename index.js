@@ -3,7 +3,7 @@ import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 
-import ShedulingRoutes from './src/routes/schedulingRoutes.js';
+import SchedulingRoutes from './src/routes/schedulingRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -18,7 +18,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // ROUTES
-app.use('/agendamento', ShedulingRoutes);
+app.use('/agendamento', SchedulingRoutes);
 
 app.listen(3000, () => {
   console.log('servidor ON');
