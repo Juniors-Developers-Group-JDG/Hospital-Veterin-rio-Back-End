@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const schedulingSchema = new mongoose.Schema({
   name: { type: String, required: true },
   petName: { type: String, required: true },
+  symptoms: { type: String, require: true },
   scheduleTime: { type: Date, required: true },
   scheduledDate: { type: Date, required: true },
 
@@ -15,6 +16,7 @@ class Scheduling {
     const teste = {
       name: 'luix',
       petName: 'oliver',
+      symptoms: 'Dor de cabeça',
       scheduleTime: new Date().getHours(),
       scheduledDate: new Date(),
     };
