@@ -1,7 +1,7 @@
 import mongoose from 'mongoose';
 
 const schedulingSchema = new mongoose.Schema({
-  name: { type: String, required: true, minlength: [5, 'O nome precisa ter no minimo 3 caracteres'] },
+  name: { type: String, required: true, minlength: [2, 'O nome precisa ter no minimo 3 caracteres'] },
   petName: { type: String, required: true, minlength: [1, 'Digite um nome para o seu pet.'] },
   symptoms: { type: String, require: true, minlength: [10, 'Os sintomas precisam ter no minimo 10 caracteres'] },
   scheduleTime: {
@@ -35,6 +35,30 @@ class Scheduling {
         scheduleDate,
       });
       return result;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async delete(id) {
+    try {
+      const result = await schedulingModel.findByIdAndDelete(id);
+      if (!result) return { msg: 'Essa consulta não existe no banco de dados' };
+      return { msg: 'Consulta cancelada com sucesso.' };
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async edit(id, scheduleNewDate, scheduleNewTime) {
+    const scheduled = await schedulingModel.findById(id);
+    if (!scheduled) return { msg: 'Essa consulta não existe no banco de dados' };
+    try {
+      const newScheduled = await schedulingModel.findByIdAndUpdate(id, {
+        scheduleDate: scheduleNewDate,
+        scheduleTime: scheduleNewTime,
+      });
+      return newScheduled;
     } catch (error) {
       return { msg: error.message };
     }
