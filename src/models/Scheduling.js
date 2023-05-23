@@ -2,13 +2,14 @@ import mongoose from 'mongoose';
 
 const schedulingSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: [5, 'O nome precisa ter no minimo 3 caracteres'] },
-  petName: { type: String, required: true },
+  petName: { type: String, required: true, minlength: [1, 'Digite um nome para o seu pet.'] },
   symptoms: { type: String, require: true, minlength: [10, 'Os sintomas precisam ter no minimo 10 caracteres'] },
   scheduleTime: {
     type: Date,
     required: true,
   },
   scheduleDate: { type: Date, required: true },
+  closed: { type: Boolean, default: false, required: true },
 
 }, { timestamps: true });
 
@@ -30,12 +31,11 @@ class Scheduling {
         name,
         petName,
         symptoms,
-        scheduleTime: new Date(),
+        scheduleTime,
         scheduleDate,
       });
       return result;
     } catch (error) {
-      console.log(error);
       return { msg: error.message };
     }
   }

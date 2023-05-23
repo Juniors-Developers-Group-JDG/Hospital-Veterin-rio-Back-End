@@ -1,3 +1,4 @@
+import validator from 'validator';
 import Scheduling from '../models/Scheduling.js';
 
 class SchedulingController {
@@ -10,6 +11,8 @@ class SchedulingController {
     const {
       name, petName, symptoms, scheduleTime, scheduleDate,
     } = req.body;
+    console.log(validator.isEmpty(petName));
+
     const result = await Scheduling.create(name, petName, symptoms, scheduleTime, scheduleDate);
     return res.status(200).json(result);
   }
