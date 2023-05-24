@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import ScheduledAppointments from './ScheduledAppointments.js';
 
 const schedulingSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: [2, 'O nome precisa ter no minimo 3 caracteres'] },
@@ -34,7 +35,12 @@ class Scheduling {
         scheduleTime,
         scheduleDate,
       });
-      return result;
+
+      const isScheduled = await ScheduledAppointments.create(
+        result._id,
+        result.scheduleDate,
+        result.scheduleTime,
+      );
     } catch (error) {
       return { msg: error.message };
     }
