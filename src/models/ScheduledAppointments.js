@@ -3,7 +3,6 @@ import moment from 'moment';
 import validateSchedule from '../utils/validateSchedule.js';
 
 const scheduledAppointments = new mongoose.Schema({
-  // name: { type: String, required: true, minlength: [3, 'Digite um nome para o seu pet.'] },
   appointmentId: {
     type: mongoose.Types.ObjectId,
     ref: 'Scheduling',
@@ -27,9 +26,14 @@ class ScheduledAppointments {
     // CONSULTO SE JÁ TEM ESSA DATA NO BANCO DE DATAS AGENDADAS
     const isDate = await schedulingAppnModel.findOne({ date });
     if (isDate) {
-      if (!validateSchedule(isDate.hours, startTime)) {
-        return { msg: 'erro' };
+      // FUNÇÃO PARA VALIDAÇÃO DA HORA E DE HORÁRIOS DISPONIVEIS
+      if (isDate.marked >= 5) {
+        return { msg: 'There are no more appointment times available for that day.' };
       }
+      if (!validateSchedule(isDate.hours, startTime, isDate.marked)) {
+        return { msg: 'There is already an appointment scheduled for this time.' };
+      }
+      // ADICIONANDO UMA HORA AO HORÁRIO FINAL DA CONSULTA
       const closingTime = moment(startTime).add(1, 'hour');
       const newArray = isDate.hours;
       newArray.push({
@@ -37,12 +41,18 @@ class ScheduledAppointments {
         closingTime,
       });
 
-      const att = await schedulingAppnModel.findByIdAndUpdate(isDate._id, {
+      await schedulingAppnModel.findByIdAndUpdate(isDate._id, {
         hours: newArray,
+        marked: isDate.marked + 1,
       });
-      return att;
+      return { msg: 'Scheduled appointment!' };
     }
+
+    // SE NÃO TIVER UMA DATA JÁ CADASTRADA CADASTRA UMA NOVA
+
+    // ADICIONANDO UMA HORA AO HORÁRIO FINAL DA CONSULTA
     const closingTime = moment(startTime).add(1, 'hour');
+
     try {
       const result = await schedulingAppnModel.create({
         appointmentId: id,
@@ -52,7 +62,7 @@ class ScheduledAppointments {
           closingTime,
           hours: {
             startTime,
-            closingTime: new Date(),
+            closingTime,
           },
         },
         marked: 1,

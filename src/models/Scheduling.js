@@ -2,9 +2,9 @@ import mongoose from 'mongoose';
 import ScheduledAppointments from './ScheduledAppointments.js';
 
 const schedulingSchema = new mongoose.Schema({
-  name: { type: String, required: true, minlength: [2, 'O nome precisa ter no minimo 3 caracteres'] },
-  petName: { type: String, required: true, minlength: [1, 'Digite um nome para o seu pet.'] },
-  symptoms: { type: String, require: true, minlength: [10, 'Os sintomas precisam ter no minimo 10 caracteres'] },
+  name: { type: String, required: true, minlength: [1, 'Enter your name'] },
+  petName: { type: String, required: true, minlength: [1, 'Enter a name for your pet.'] },
+  symptoms: { type: String, require: true, minlength: [10, 'Symptoms must be at least 10 characters long'] },
   scheduleTime: {
     type: Date,
     required: true,
@@ -41,6 +41,9 @@ class Scheduling {
         result.scheduleDate,
         result.scheduleTime,
       );
+      if (isScheduled) return isScheduled;
+
+      return result;
     } catch (error) {
       return { msg: error.message };
     }
@@ -49,8 +52,8 @@ class Scheduling {
   async delete(id) {
     try {
       const result = await schedulingModel.findByIdAndDelete(id);
-      if (!result) return { msg: 'Essa consulta não existe no banco de dados' };
-      return { msg: 'Consulta cancelada com sucesso.' };
+      if (!result) return { msg: 'This schedule does not exist in the database.' };
+      return { msg: 'Appointment cancel with successful.' };
     } catch (error) {
       return { msg: error.message };
     }
@@ -58,7 +61,7 @@ class Scheduling {
 
   async edit(id, scheduleNewDate, scheduleNewTime) {
     const scheduled = await schedulingModel.findById(id);
-    if (!scheduled) return { msg: 'Essa consulta não existe no banco de dados' };
+    if (!scheduled) return { msg: 'This schedule does not exist in the database.' };
     try {
       const newScheduled = await schedulingModel.findByIdAndUpdate(id, {
         scheduleDate: scheduleNewDate,

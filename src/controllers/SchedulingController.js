@@ -14,7 +14,7 @@ class SchedulingController {
       const result = await Scheduling.create(name, petName, symptoms, scheduleTime, scheduleDate);
       return res.status(200).json(result);
     } catch (error) {
-      return res.status(400).json({ msg: 'Erro na requisição' });
+      return res.status(400).json({ msg: 'Bad Request' });
     }
   }
 
@@ -22,20 +22,20 @@ class SchedulingController {
     const { id } = req.params;
     const { scheduleDate, scheduleTime } = req.body;
     if (id.length !== 24) {
-      return res.status(404).json({ msg: 'Essa consulta não existe.' });
+      return res.status(404).json({ msg: 'This schedule does not exist.' });
     }
 
     const result = await Scheduling.edit(id, scheduleDate, scheduleTime);
     if (!result) {
-      return res.status(404).json({ msg: 'Essa consulta não existe no banco de dados' });
+      return res.status(404).json({ msg: 'This schedule does not exist in the database.' });
     }
-    res.status(200).json({ msg: 'Consulta reagendada' });
+    res.status(200).json({ msg: 'Rescheduling done successfully.' });
   }
 
   async deleteSchedule(req, res) {
     const { id } = req.params;
     if (id.length !== 24) {
-      return res.status(404).json({ msg: 'Essa consulta não existe.' });
+      return res.status(404).json({ msg: 'This schedule does not exist.' });
     }
     const result = await Scheduling.delete(id);
     res.status(200).json(result);
