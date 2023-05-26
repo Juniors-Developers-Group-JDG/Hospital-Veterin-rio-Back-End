@@ -1,4 +1,4 @@
-import Posts from '../models/Posts';
+import Posts from '../models/Posts.js';
 
 class PostsController {
   async getAllPosts(req, res) {
