@@ -1,11 +1,13 @@
 import { Router } from 'express';
-import PostsController from '../controllers/PostsController';
+import PostsController from '../controllers/PostsController.js';
 
 const routes = new Router();
 
-routes.get('/posts', PostsController.getAllPosts);
-routes.post('/posts', PostsController.createPost);
-routes.delete('/posts/:id', PostsController.deletePost);
-routes.patch('/posts/:id/content', PostsController.editContent);
-routes.patch('/posts/:id/title', PostsController.editTitle);
-routes.put('/posts/:id/comments', PostsController.addNewComment);
+routes.get('/', PostsController.getAllPosts);
+routes.post('/', PostsController.createPost);
+routes.delete('/:id', PostsController.deletePost);
+routes.patch('/:id/content', PostsController.editContent);
+routes.patch('/:id/title', PostsController.editTitle);
+routes.put('/:id/comments', PostsController.addNewComment);
+
+export default routes;
