@@ -2,8 +2,8 @@ import mongose from 'mongoose';
 
 const postsSchema = new mongose.Schema({
   author: { type: new mongose.Types.ObjectId() },
-  title: { type: String, required: true },
-  content: { type: String, required: true },
+  title: { type: String, required: true, minlength: [1, "Enter post's title"] },
+  content: { type: String, required: true, minlength: [1, "Enter post's content"] },
   comments: [{
     author: { type: new mongose.Types.ObjectId() },
     content: { type: String, required: true },
@@ -51,9 +51,26 @@ class Posts {
 
       if (!currentPost) return { msg: 'This post does not exist in the database.' };
 
-      const uppdatedPost = await postsModel.findByIdAndUpdate(id, { ...newData });
+      const updatedPost = await postsModel.findByIdAndUpdate(id, { ...newData });
 
-      return uppdatedPost;
+      return updatedPost;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async put(id, column, newData) {
+    try {
+      const currentPost = await postsModel.findById(id);
+
+      if (!currentPost) return { msg: 'This post does not exist in the database.' };
+
+      const updatedPost = await postsModel
+        .findByIdAndUpdate(id, {
+          [column]: [newData, currentPost[column]],
+        });
+
+      return updatedPost;
     } catch (error) {
       return { msg: error.message };
     }
