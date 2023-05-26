@@ -4,6 +4,7 @@ import ScheduledAppointments from './ScheduledAppointments.js';
 const schedulingSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: [1, 'Enter your name'] },
   petName: { type: String, required: true, minlength: [1, 'Enter a name for your pet.'] },
+  specialty: { type: String, required: true, minlength: [1, 'Enter a specialty.'] },
   symptoms: { type: String, require: true, minlength: [10, 'Symptoms must be at least 10 characters long'] },
   scheduleTime: {
     type: Date,
@@ -26,11 +27,12 @@ class Scheduling {
     }
   }
 
-  async create(name, petName, symptoms, scheduleTime, scheduleDate) {
+  async create(name, petName, specialty, symptoms, scheduleTime, scheduleDate) {
     try {
       const result = await schedulingModel.create({
         name,
         petName,
+        specialty,
         symptoms,
         scheduleTime,
         scheduleDate,

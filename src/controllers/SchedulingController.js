@@ -8,10 +8,21 @@ class SchedulingController {
 
   async createSchedule(req, res) {
     const {
-      name, petName, symptoms, scheduleTime, scheduleDate,
+      name, petName, specialty, symptoms, scheduleTime, scheduleDate,
     } = req.body;
     try {
-      const result = await Scheduling.create(name, petName, symptoms, scheduleTime, scheduleDate);
+      const result = await Scheduling.create(
+        name,
+        petName,
+
+        specialty,
+
+        symptoms,
+
+        scheduleTime,
+
+        scheduleDate,
+      );
       return res.status(200).json(result);
     } catch (error) {
       return res.status(400).json({ msg: 'Bad Request' });
