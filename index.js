@@ -4,7 +4,7 @@ import express from 'express';
 import mongoose from 'mongoose';
 
 import PostsRoutes from './src/routes/postsRoutes.js';
-import ShedulingRoutes from './src/routes/schedulingRoutes.js';
+import SchedulingRoutes from './src/routes/schedulingRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -19,7 +19,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // ROUTES
-app.use('/agendamento', ShedulingRoutes);
+app.use('/agendamento', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
 
 app.listen(3000, () => {
