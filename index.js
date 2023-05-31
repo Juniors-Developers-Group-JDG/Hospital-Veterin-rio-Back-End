@@ -5,6 +5,7 @@ import mongoose from 'mongoose';
 
 import PostsRoutes from './src/routes/postsRoutes.js';
 import SchedulingRoutes from './src/routes/schedulingRoutes.js';
+import usersRoutes from './src/routes/usersRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -21,6 +22,7 @@ app.use(bodyParser.json());
 // ROUTES
 app.use('/agendamento', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
+app.use('/', usersRoutes);
 
 app.listen(3000, () => {
   console.log('servidor ON');
