@@ -1,8 +1,9 @@
-import express from 'express';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
+import express from 'express';
+import mongoose from 'mongoose';
 
+import PostsRoutes from './src/routes/postsRoutes.js';
 import SchedulingRoutes from './src/routes/schedulingRoutes.js';
 import usersRoutes from './src/routes/usersRoutes.js';
 
@@ -20,6 +21,7 @@ app.use(bodyParser.json());
 
 // ROUTES
 app.use('/agendamento', SchedulingRoutes);
+app.use('/posts', PostsRoutes);
 app.use('/', usersRoutes);
 
 app.listen(3000, () => {
