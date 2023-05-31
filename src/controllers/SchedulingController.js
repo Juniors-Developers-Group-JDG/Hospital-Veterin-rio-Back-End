@@ -8,7 +8,7 @@ class SchedulingController {
 
   async createSchedule(req, res) {
     const {
-      name, petName, specialty, symptoms, scheduleTime, scheduleDate,
+      name, petName, specialty, symptoms, startTime, scheduleDate,
     } = req.body;
     try {
       const result = await Scheduling.create(
@@ -19,7 +19,7 @@ class SchedulingController {
 
         symptoms,
 
-        scheduleTime,
+        startTime,
 
         scheduleDate,
       );
@@ -35,12 +35,17 @@ class SchedulingController {
     if (id.length !== 24) {
       return res.status(404).json({ msg: 'This schedule does not exist.' });
     }
-
     const result = await Scheduling.edit(id, scheduleDate, scheduleTime);
-    if (!result) {
-      return res.status(404).json({ msg: 'This schedule does not exist in the database.' });
+    res.status(200).json(result);
+  }
+
+  async closeSchedule(req, res) {
+    const { id } = req.params;
+    if (id.length !== 24) {
+      return res.status(404).json({ msg: 'This schedule does not exist.' });
     }
-    res.status(200).json({ msg: 'Rescheduling done successfully.' });
+    const result = await Scheduling.close(id);
+    res.status(200).json(result);
   }
 
   async deleteSchedule(req, res) {

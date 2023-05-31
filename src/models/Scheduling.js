@@ -1,15 +1,14 @@
 import mongoose from 'mongoose';
-import ScheduledAppointments from './ScheduledAppointments.js';
+import moment from 'moment';
+import validateSchedule from '../utils/validateSchedule.js';
 
 const schedulingSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: [1, 'Enter your name'] },
   petName: { type: String, required: true, minlength: [1, 'Enter a name for your pet.'] },
   specialty: { type: String, required: true, minlength: [1, 'Enter a specialty.'] },
   symptoms: { type: String, require: true, minlength: [10, 'Symptoms must be at least 10 characters long'] },
-  scheduleTime: {
-    type: Date,
-    required: true,
-  },
+  startTime: { type: Date, required: true },
+  closingTime: { type: Date, required: true },
   scheduleDate: { type: Date, required: true },
   closed: { type: Boolean, default: false, required: true },
 
@@ -27,25 +26,54 @@ class Scheduling {
     }
   }
 
-  async create(name, petName, specialty, symptoms, scheduleTime, scheduleDate) {
+  async create(name, petName, specialty, symptoms, startTime, scheduleDate) {
+    const schedulesBD = await schedulingModel.find({ scheduleDate });
+    if (schedulesBD) {
+      if (!validateSchedule(schedulesBD, startTime)) {
+        return { msg: 'There is already an appointment scheduled for this time.' };
+      }
+      try {
+        const closingTime = moment(startTime).add(1, 'hour');
+        const result = await schedulingModel.create({
+          name,
+          petName,
+          specialty,
+          symptoms,
+          startTime,
+          closingTime,
+          scheduleDate,
+        });
+
+        return result;
+      } catch (error) {
+        return { msg: error.message };
+      }
+    }
+
+    const closingTime = moment(startTime).add(1, 'hour');
     try {
       const result = await schedulingModel.create({
         name,
         petName,
         specialty,
         symptoms,
-        scheduleTime,
+        startTime,
+        closingTime,
         scheduleDate,
       });
 
-      const isScheduled = await ScheduledAppointments.create(
-        result._id,
-        result.scheduleDate,
-        result.scheduleTime,
-      );
-      if (isScheduled) return isScheduled;
-
       return result;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async close(id) {
+    try {
+      const closeScheduling = await schedulingModel.findByIdAndUpdate(id, {
+        closed: true,
+      }, { new: true });
+      return closeScheduling;
     } catch (error) {
       return { msg: error.message };
     }
@@ -63,16 +91,19 @@ class Scheduling {
 
   async edit(id, scheduleNewDate, scheduleNewTime) {
     const scheduled = await schedulingModel.findById(id);
+
     if (!scheduled) return { msg: 'This schedule does not exist in the database.' };
-    try {
-      const newScheduled = await schedulingModel.findByIdAndUpdate(id, {
-        scheduleDate: scheduleNewDate,
-        scheduleTime: scheduleNewTime,
-      });
-      return newScheduled;
-    } catch (error) {
-      return { msg: error.message };
+    const schedulesBD = await schedulingModel.find({ scheduleDate: scheduled.scheduleDate });
+    if (!validateSchedule(schedulesBD, scheduleNewTime)) {
+      return { msg: 'There is already an appointment scheduled for this time.' };
     }
+    const closingTime = moment(scheduleNewTime).add(1, 'hour');
+    const result = await schedulingModel.findByIdAndUpdate(scheduled.id, {
+      scheduleDate: scheduleNewDate,
+      startTime: scheduleNewTime,
+      closingTime,
+    }, { new: true });
+    return result;
   }
 }
 
