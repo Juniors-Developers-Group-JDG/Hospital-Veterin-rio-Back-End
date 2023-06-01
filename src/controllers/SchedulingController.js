@@ -1,4 +1,5 @@
 import Scheduling from '../models/Scheduling.js';
+import Users from '../models/Users.js';
 
 class SchedulingController {
   async getAllSchedules(req, res) {
@@ -10,9 +11,13 @@ class SchedulingController {
     const {
       name, petName, specialty, symptoms, startTime, scheduleDate,
     } = req.body;
+    const userBD = await Users.findByName(name);
+    if (!userBD) {
+      return res.status(404).json({ msg: 'you need to have a registered account to make an appointment;' });
+    }
     try {
       const result = await Scheduling.create(
-        name,
+        userBD,
         petName,
 
         specialty,

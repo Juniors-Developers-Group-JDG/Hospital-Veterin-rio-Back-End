@@ -3,7 +3,7 @@ import moment from 'moment';
 import validateSchedule from '../utils/validateSchedule.js';
 
 const schedulingSchema = new mongoose.Schema({
-  name: { type: String, required: true, minlength: [1, 'Enter your name'] },
+  name: { type: mongoose.Types.ObjectId, ref: 'User' },
   petName: { type: String, required: true, minlength: [1, 'Enter a name for your pet.'] },
   specialty: { type: String, required: true, minlength: [1, 'Enter a specialty.'] },
   symptoms: { type: String, require: true, minlength: [10, 'Symptoms must be at least 10 characters long'] },
