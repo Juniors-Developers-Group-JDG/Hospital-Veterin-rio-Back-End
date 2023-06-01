@@ -27,7 +27,46 @@ class User {
       });
       return result;
     } catch (error) {
-      console.log(error);
+      return { msg: error.message };
+    }
+  }
+
+  async findById(id) {
+    try {
+      const user = await userModel.findById(id);
+      return user;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async findByName(name) {
+    try {
+      const user = await userModel.findOne({ name });
+      return user;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async delete(id) {
+    try {
+      const result = await userModel.findByIdAndDelete(id);
+      return result;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async update(id, name, email, password) {
+    try {
+      const result = await userModel.findByIdAndUpdate(id, {
+        name,
+        email,
+        password,
+      });
+      return result;
+    } catch (error) {
       return { msg: error.message };
     }
   }
