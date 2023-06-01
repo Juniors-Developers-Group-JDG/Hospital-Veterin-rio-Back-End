@@ -1,4 +1,5 @@
 import Posts from '../models/Posts.js';
+import Users from '../models/Users.js';
 
 class PostsController {
   async getAllPosts(req, res) {
@@ -14,8 +15,13 @@ class PostsController {
   async createPost(req, res) {
     try {
       const { body } = req;
+      const userBD = await Users.findByName(body.author);
 
-      const result = await Posts.create(body);
+      if (!userBD) {
+        return res.status(404).json({ msg: 'you need to have a registered account to make an appointment;' });
+      }
+
+      const result = await Posts.create(userBD, body);
 
       return res.status(201).json(result);
     } catch (error) {

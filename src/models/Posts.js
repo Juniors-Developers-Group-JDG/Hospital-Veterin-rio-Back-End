@@ -1,11 +1,12 @@
 import mongoose from 'mongoose';
 
 const postsSchema = new mongoose.Schema({
-  author: { type: mongoose.Types.ObjectId },
+  author: { type: mongoose.Types.ObjectId, ref: 'User' },
   title: { type: String, required: true, minlength: [1, "Enter post's title"] },
   content: { type: String, required: true, minlength: [1, "Enter post's content"] },
   comments: [{
-    author: { type: mongoose.Types.ObjectId },
+    _id: false,
+    author: { type: mongoose.Types.ObjectId, ref: 'User' },
     content: { type: String, required: true },
   }],
 });
@@ -23,9 +24,17 @@ class Posts {
     }
   }
 
-  async create({ ...data }) {
+  async create(user, { ...data }) {
     try {
-      const result = await postsModel.create(data);
+      const result = await postsModel.create({
+        author: user,
+        title: data.title,
+        content: data.content,
+        comments: [{
+          author: user,
+          content: data.coments[0].content,
+        }],
+      });
 
       return result;
     } catch (error) {
