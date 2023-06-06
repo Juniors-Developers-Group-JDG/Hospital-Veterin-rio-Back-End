@@ -1,4 +1,5 @@
 import User from '../models/Users.js';
+import JWTService from '../auth/auth.js';
 
 class LoginController {
   async login(req, res) {
@@ -15,8 +16,8 @@ class LoginController {
         return res.status(401).json({ error: 'Incorrect password' });
       }
 
-      // Login successful
-      return res.json({ message: 'Login successful', user });
+      const token = JWTService.createToken({ email, password });
+      return res.status(200).json({ token });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
