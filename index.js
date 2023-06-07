@@ -2,6 +2,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import swaggerUI from 'swagger-ui-express';
+import swaggerDocument from './swagger.json' assert { type: "json" };
 
 import PostsRoutes from './src/routes/postsRoutes.js';
 import SchedulingRoutes from './src/routes/schedulingRoutes.js';
@@ -20,9 +22,10 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // ROUTES
-app.use('/agendamento', SchedulingRoutes);
+app.use('/schedules', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
 app.use('/', usersRoutes);
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.listen(3000, () => {
   console.log('servidor ON');

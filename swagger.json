@@ -1,0 +1,65 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "JDG Back-End VET",
+    "description": "Documentation from JDG Back-End VET.",
+    "version": "1.0.0",
+    "contact": {
+      "email": "veterinariobackend@gmail.com"
+    }
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "testing local"
+    },
+    {
+      "url": "https://apiintersala-production.up.railway.app",
+      "description": "API in Production"
+    }
+  ],
+  "paths": {
+    "/login": {
+      "post": {
+        "tags":["Auth"],
+        "summary": "Returns bearer Token",
+        "description": "Returns the token for authenticating private routes.",
+        "responses": {
+            "200": {
+              "description": "Success"
+            }
+        }
+      }
+    },
+    "/schedules/getAll": {
+      "get": {
+        "tags":["Schedulings"],
+        "summary": "Returns a list of all schedules.",
+        "description": "Get all schedules.",
+        "requestBody": {
+          "content": {
+            "application/json":{
+              "schema":{
+                "type": "Object"
+              },
+              "properties": {
+                "email": {
+                  "type": "string"
+                },
+                "password": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+            "200": {
+              "description": "Success"
+            }
+        }
+      }
+    }
+  }
+
+}
