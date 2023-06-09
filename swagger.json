@@ -24,23 +24,11 @@
         "tags":["Auth"],
         "summary": "Returns bearer Token",
         "description": "Returns the token for authenticating private routes.",
-        "responses": {
-            "200": {
-              "description": "Success"
-            }
-        }
-      }
-    },
-    "/schedules/getAll": {
-      "get": {
-        "tags":["Schedulings"],
-        "summary": "Returns a list of all schedules.",
-        "description": "Get all schedules.",
         "requestBody": {
           "content": {
             "application/json":{
               "schema":{
-                "type": "Object"
+                "type": "object"
               },
               "properties": {
                 "email": {
@@ -49,15 +37,64 @@
                 "password": {
                   "type": "string"
                 }
+              },
+              "example": {
+                "email": "luisteste@gmail.com",
+                "password": "teste"
               }
             }
           }
         },
         "responses": {
             "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object"
+                  },
+                  "properties": {
+                   "token": {
+                    "type": "string",
+                    "description": "Returns the token for authenticating private routes."
+                   }
+                  },
+                  "example": {
+                    "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImVtYWlsIjoibHVpc3Rlc3RlQGdtYWlsLmNvbSIsInBhc3N3b3JkIjoidGVzdGUifSwiaWF0IjoxNjg2MzI4MzcwLCJleHAiOjE2ODYzMzE5NzB9._Z1sfEqYU7hw5fZkxvntBAffYNJBZVyKCmaIFpkIgJo"
+                  }
+                }
+              }
+            },
+            "404": {
+              "description": "User not found"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+        }
+      }
+    },
+    "/schedules/getAll": {
+      "get": {
+        "tags":["Schedulings"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Returns a list of all schedules.",
+        "description": "Get all schedules.",
+
+        "responses": {
+            "200": {
               "description": "Success"
             }
         }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes":{
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
       }
     }
   }

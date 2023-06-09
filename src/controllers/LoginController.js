@@ -9,7 +9,7 @@ class LoginController {
       const user = await User.login(email, password);
 
       if (user.msg === 'User not found') {
-        return res.status(401).json({ error: 'User not found' });
+        return res.status(404).json({ error: 'User not found' });
       }
 
       if (user.msg === 'Incorrect password') {

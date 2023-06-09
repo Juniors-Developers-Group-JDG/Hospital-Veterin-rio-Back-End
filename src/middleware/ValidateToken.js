@@ -7,7 +7,8 @@ class JwtMiddleware {
       if (!authorization) {
         return res.status(401).json({ message: 'Token not found' });
       }
-      const data = JWTService.verifyToken(authorization);
+      const [, token] = authorization.split(' ');
+      const data = JWTService.verifyToken(token);
       req.payload = data;
       next();
     } catch (error) {
