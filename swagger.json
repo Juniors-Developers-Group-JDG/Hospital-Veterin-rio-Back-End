@@ -156,10 +156,19 @@
                   "type": "string"
                  },
                  "startTime": {
-                  "type": "Date"
+                  "type": "string",
+                  "format": "date"
+                 },
+                 "closingTime": {
+                  "type": "string",
+                  "format": "date"
                  },
                  "scheduleDate": {
-                  "type": "Date"
+                  "type": "string",
+                  "format": "date"
+                 },
+                 "closed": {
+                  "type": "boolean"
                  }
                 },
                 "example": {
@@ -191,17 +200,177 @@
         "security": [{"bearerAuth": []}],
         "summary": "Reschedules an existing appointment in the database.",
         "description": "Reschedules an appointment.",
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema":{
+                "type": "object"
+              },
+              "properties": {
+                "scheduleTime": {
+                "type": "string"
+               }
+              },
+              "example": {
+                "scheduleTime": "2023-05-22T21:25:00.000"
+              }
+            }
+          }
+        },
         "parameters": [{
           "name": "id",
           "in": "path",
+          "required": true,
           "description": "Schedule id already booked."
         }],
         "responses": {
             "200": {
-              "description": "Success"
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object"
+                  },
+                  "properties": {
+                    "_id": {
+                    "type": "string"
+                   },
+                   "petName": {
+                    "type": "string"
+                   },
+                   "specialty": {
+                    "type": "string"
+                   },
+                   "symptoms": {
+                    "type": "string"
+                   },
+                   "startTime": {
+                    "type": "Date"
+                   },
+                   "scheduleDate": {
+                    "type": "Date"
+                   }
+                  },
+                  "example": {
+                    "_id": "6488c36eda54487a33ea963a",
+                    "petname": "Oliver",
+                    "specialty": "Medical clinic",
+                    "symptoms": "Vomiting for a week",
+                    "startTime": "2023-05-24T14:50:00.000Z",
+                    "closingTime": "2023-05-24T15:50:00.000Z",
+                    "scheduleDate": "2023-05-24T00:00:00.000Z",
+                    "closed": "false"
+                  }
+                }
+              }
             },
             "401": {
               "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Bad Request"
+            }
+        }
+      }
+    },
+    "/schedules/closeSchedule/{id}" : {
+      "put": {
+        "tags":["Schedulings"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Closes an schedule in database.",
+        "description": "Closes an schedule.",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Schedule id already booked."
+        }],
+        "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object"
+                  },
+                  "properties": {
+                    "_id": {
+                    "type": "string"
+                   },
+                   "petName": {
+                    "type": "string"
+                   },
+                   "specialty": {
+                    "type": "string"
+                   },
+                   "symptoms": {
+                    "type": "string"
+                   },
+                   "startTime": {
+                    "type": "Date"
+                   },
+                   "scheduleDate": {
+                    "type": "Date"
+                   }
+                  },
+                  "example": {
+                    "_id": "6488c36eda54487a33ea963a",
+                    "petname": "Oliver",
+                    "specialty": "Medical clinic",
+                    "symptoms": "Vomiting for a week",
+                    "startTime": "2023-05-24T14:50:00.000Z",
+                    "closingTime": "2023-05-24T15:50:00.000Z",
+                    "scheduleDate": "2023-05-24T00:00:00.000Z",
+                    "closed": "true"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Bad Request"
+            }
+        }
+      }
+    },
+    "/schedules/delete/{id}" : {
+      "delete": {
+        "tags":["Schedulings"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Delete an schedule in database.",
+        "description": "Delete an schedule.",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "required": true,
+          "description": "Schedule id already booked."
+        }],
+        "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object"
+                  },
+                  "properties": {
+                   "msg": {
+                    "type": "string"
+                   }
+                  },
+                  "example": {
+                   "msg": "Appointment cancel with successful."
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Bad Request"
             }
         }
       }
