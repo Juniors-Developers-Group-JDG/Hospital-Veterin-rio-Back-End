@@ -135,56 +135,56 @@
           }
         },
         "responses": {
-            "200": {
-              "description": "Success",
-              "content": {
-                "application/json": {
-                  "schema":{
-                    "type": "object"
-                  },
-                  "properties": {
-                    "name": {
-                    "type": "string"
-                   },
-                   "petName": {
-                    "type": "string"
-                   },
-                   "specialty": {
-                    "type": "string"
-                   },
-                   "symptoms": {
-                    "type": "string"
-                   },
-                   "startTime": {
-                    "type": "Date"
-                   },
-                   "scheduleDate": {
-                    "type": "Date"
-                   }
-                  },
-                  "example": {
-                    "name": "User info in Database",
-                    "petname": "Oliver",
-                    "specialty": "Medical clinic",
-                    "symptoms": "Vomiting for a week",
-                    "startTime": "2023-05-24T14:50:00.000Z",
-                    "closingTime": "2023-05-24T15:50:00.000Z",
-                    "scheduleDate": "2023-05-24T00:00:00.000Z",
-                    "closed": "false",
-                    "_id": "6488c36eda54487a33ea963a"
-                  }
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema":{
+                  "type": "object"
+                },
+                "properties": {
+                  "name": {
+                  "type": "string"
+                 },
+                 "petName": {
+                  "type": "string"
+                 },
+                 "specialty": {
+                  "type": "string"
+                 },
+                 "symptoms": {
+                  "type": "string"
+                 },
+                 "startTime": {
+                  "type": "Date"
+                 },
+                 "scheduleDate": {
+                  "type": "Date"
+                 }
+                },
+                "example": {
+                  "name": "User info in Database",
+                  "petname": "Oliver",
+                  "specialty": "Medical clinic",
+                  "symptoms": "Vomiting for a week",
+                  "startTime": "2023-05-24T14:50:00.000Z",
+                  "closingTime": "2023-05-24T15:50:00.000Z",
+                  "scheduleDate": "2023-05-24T00:00:00.000Z",
+                  "closed": "false",
+                  "_id": "6488c36eda54487a33ea963a"
                 }
               }
-            },
-            "401": {
-              "description": "Unauthorized"
-            },
-            "404": {
-              "description": "Bad Request"
             }
-        }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Bad Request"
+          }
       }
-    },
+    }
+  },
     "/schedules/reschedule/{id}" : {
       "put": {
         "tags":["Schedulings"],
@@ -208,6 +208,36 @@
     }
   },
   "components": {
+    "schemas":{
+      "Schedule": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+         },
+         "petName": {
+          "type": "string"
+         },
+         "specialty": {
+          "type": "string"
+         },
+         "symptoms": {
+          "type": "string"
+         },
+         "startTime": {
+          "type": "string",
+          "format": "date"
+         },
+         "scheduleDate": {
+          "type": "string",
+          "format": "date"
+         }
+      }
+    }
+  },
     "securitySchemes":{
       "bearerAuth": {
         "type": "http",
