@@ -22,7 +22,7 @@
     "/login": {
       "post": {
         "tags":["Auth"],
-        "summary": "Returns bearer Token",
+        "summary": "Returns bearer Token.",
         "description": "Returns the token for authenticating private routes.",
         "requestBody": {
           "content": {
@@ -84,6 +84,124 @@
         "responses": {
             "200": {
               "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
+            }
+        }
+      }
+    },
+    "/schedules/create": {
+      "post": {
+        "tags":["Schedulings"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Create a schedule.",
+        "description": "Create a schedule in database.",
+        "requestBody": {
+          "content": {
+            "application/json":{
+              "schema":{
+                "type": "object"
+              },
+              "properties": {
+                "name": {
+                  "type": "string"
+                 },
+                 "petName": {
+                  "type": "string"
+                 },
+                 "specialty": {
+                  "type": "string"
+                 },
+                 "symptoms": {
+                  "type": "string"
+                 },
+                 "startTime": {
+                  "type": "Date"
+                 },
+                 "scheduleDate": {
+                  "type": "Date"
+                 }
+              },
+              "example": {
+                "name": "Luis Gabriel",
+                "petName": "Oliver",
+                "specialty": "Medical clinic",
+                "symptoms": "Vomiting for a week",
+                "startTime": "2023-05-24T14:50:00.000Z",
+                "scheduleDate": "2023-05-24T00:00:00.000Z"
+              }
+            }
+          }
+        },
+        "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "application/json": {
+                  "schema":{
+                    "type": "object"
+                  },
+                  "properties": {
+                    "name": {
+                    "type": "string"
+                   },
+                   "petName": {
+                    "type": "string"
+                   },
+                   "specialty": {
+                    "type": "string"
+                   },
+                   "symptoms": {
+                    "type": "string"
+                   },
+                   "startTime": {
+                    "type": "Date"
+                   },
+                   "scheduleDate": {
+                    "type": "Date"
+                   }
+                  },
+                  "example": {
+                    "name": "User info in Database",
+                    "petname": "Oliver",
+                    "specialty": "Medical clinic",
+                    "symptoms": "Vomiting for a week",
+                    "startTime": "2023-05-24T14:50:00.000Z",
+                    "closingTime": "2023-05-24T15:50:00.000Z",
+                    "scheduleDate": "2023-05-24T00:00:00.000Z",
+                    "closed": "false",
+                    "_id": "6488c36eda54487a33ea963a"
+                  }
+                }
+              }
+            },
+            "401": {
+              "description": "Unauthorized"
+            },
+            "404": {
+              "description": "Bad Request"
+            }
+        }
+      }
+    },
+    "/schedules/reschedule/{id}" : {
+      "put": {
+        "tags":["Schedulings"],
+        "security": [{"bearerAuth": []}],
+        "summary": "Reschedules an existing appointment in the database.",
+        "description": "Reschedules an appointment.",
+        "parameters": [{
+          "name": "id",
+          "in": "path",
+          "description": "Schedule id already booked."
+        }],
+        "responses": {
+            "200": {
+              "description": "Success"
+            },
+            "401": {
+              "description": "Unauthorized"
             }
         }
       }

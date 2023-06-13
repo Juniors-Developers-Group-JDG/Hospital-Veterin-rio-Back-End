@@ -43,7 +43,6 @@ class Scheduling {
           closingTime,
           scheduleDate,
         });
-
         return result;
       } catch (error) {
         return { msg: error.message };
