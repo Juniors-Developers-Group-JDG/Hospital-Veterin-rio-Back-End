@@ -51,6 +51,15 @@ class User {
     }
   }
 
+  async findByEmail(email) {
+    try {
+      const user = await userModel.findOne({ email });
+      return user;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
   async delete(id) {
     try {
       const result = await userModel.findByIdAndDelete(id);

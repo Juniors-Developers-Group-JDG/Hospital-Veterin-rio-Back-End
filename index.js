@@ -2,6 +2,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
+import ejs from 'ejs'
 import swaggerUI from 'swagger-ui-express';
 import swaggerDocument from './swagger.json' assert { type: "json" };
 
@@ -20,6 +21,10 @@ mongoose.connect('mongodb+srv://bkdVet:bkdVet2023@clustervet.lcn4fm8.mongodb.net
 // BODY-PARSER CONFIG
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+//EJS CONFIG
+app.set('view engine', 'ejs')
+
 
 // ROUTES
 app.use('/schedules', SchedulingRoutes);

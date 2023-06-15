@@ -1,3 +1,5 @@
+import jwt from 'jsonwebtoken';
+import { Resend } from 'resend';
 import User from '../models/Users.js';
 
 class UsersController {
@@ -73,6 +75,40 @@ class UsersController {
     } catch (error) {
       res.status(500).json({ error: error.message });
     }
+  }
+
+  async forgotPassword(req, res) {
+    const { email } = req.body;
+    const emailExists = await User.findByEmail(email);
+    if (!emailExists) return res.status(500).json({ error: 'Email not found' });
+    const secret = '122124';
+    const payload = {
+      name: emailExists.name,
+      email: emailExists.email,
+    };
+    const token = jwt.sign(payload, secret, { expiresIn: '2h' });
+    const link = `http://localhost:3000/resetpassword/${emailExists.id}/${token}`;
+
+    const resend = new Resend('re_hhTmtY9S_A9izkcxd4krNkHcCp8rzCUDz');
+
+    resend.emails.send({
+      from: 'onboarding@resend.dev',
+      to: 'veterinariobackend@gmail.com',
+      subject: 'Hello World',
+      html: `<p>Segue o link para a recuperação de senha ${link}</p>`,
+    });
+    res.json({ msg: 'o link foi enviado' });
+  }
+
+  async resetPassword(req, res) {
+    const { id, token } = req.params;
+    const userExists = await User.findById(id);
+    if (!userExists) {
+      res.send('Invlaid Id');
+    }
+    const secret = '122124';
+    const payload = jwt.verify(token, secret);
+    res.render('recoverPassword.ejs');
   }
 }
 
