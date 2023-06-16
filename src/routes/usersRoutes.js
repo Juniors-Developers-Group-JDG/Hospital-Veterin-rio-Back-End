@@ -9,6 +9,7 @@ routes.get('/user', UsersController.getAllUsers);
 routes.post('/user', UsersController.createUser);
 routes.post('/recoverPassword', UsersController.forgotPassword);
 routes.get('/resetpassword/:id/:token', UsersController.resetPassword);
+routes.post('/resetpassword/:id/:token', UsersController.changePassword);
 routes.get('/user/:id', UsersController.findById);
 routes.get('/users/:name', UsersController.findByName);
 routes.delete('/user/:id', UsersController.delete);

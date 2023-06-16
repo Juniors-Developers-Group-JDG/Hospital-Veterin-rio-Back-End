@@ -83,6 +83,15 @@ class User {
     }
   }
 
+  async updatePassword(id, password) {
+    try {
+      await userModel.findByIdAndUpdate(id, { password });
+      return { msg: 'Password changed successfully.' };
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
   async login(email, password) {
     try {
       const user = await userModel.findOne({ email });
