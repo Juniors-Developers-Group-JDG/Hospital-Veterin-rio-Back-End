@@ -13,9 +13,9 @@ class UsersController {
 
   async createUser(req, res) {
     const {
-      name, email, password,
+      name, email, password, streetAddress, zipCode, phoneNumber,
     } = req.body;
-    const result = await User.create(name, email, password);
+    const result = await User.create(name, email, password, streetAddress, zipCode, phoneNumber);
     return res.status(200).json(result);
   }
 
@@ -66,10 +66,20 @@ class UsersController {
 
   async update(req, res) {
     const { id } = req.params;
-    const { name, email, password } = req.body;
+    const {
+      name, email, password, streetAddress, zipCode, phoneNumber,
+    } = req.body;
 
     try {
-      const result = await User.update(id, name, email, password);
+      const result = await User.update(
+        id,
+        name,
+        email,
+        password,
+        streetAddress,
+        zipCode,
+        phoneNumber,
+      );
       if (!result) {
         res.status(404).json({ error: 'User not found' });
       } else {

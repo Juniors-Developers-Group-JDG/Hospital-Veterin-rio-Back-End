@@ -609,6 +609,15 @@
         "password": {
           "type": "string"
         },
+        "streetAddress": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "phoneNumber": {
+          "type": "string"
+        },
         "createdAt": {
           "type": "string",
           "format": "date-time"
@@ -629,6 +638,15 @@
           "type": "string"
         },
         "password": {
+          "type": "string"
+        },
+        "streetAddress": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "phoneNumber": {
           "type": "string"
         }
       },
