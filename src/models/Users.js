@@ -2,12 +2,12 @@ import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
-  name: { type: String, required: true, minlength: [3, 'O nome precisa ter no minimo 3 caracteres'] },
-  email: { type: String, required: true, minlength: [5, 'O email precisa ter no minimo 5 caracteres'] },
-  password: { type: String, required: true, minlength: [5, 'O senha precisa ter no minimo 6 caracteres'] },
-  streetAddress: { type: String, required: true, minlength: [5, 'O endereço precisa ter no minimo 5 caracteres'] },
-  zipCode: { type: String, required: true, minlength: [5, 'O CEP precisa ter no minimo 5 caracteres'] },
-  phoneNumber: { type: String, required: true, minlength: [5, 'O telefone precisa ter no minimo 5 caracteres'] },
+  name: { type: String, required: true, minlength: [3, 'Name must be at least 10 characters long'] },
+  email: { type: String, required: true, minlength: [5, 'Emails must be at least 10 characters long'] },
+  password: { type: String, required: true, minlength: [5, 'Password must be at least 10 characters long'] },
+  streetAddress: { type: String, required: true, minlength: [5, 'Street Adrress must be at least 10 characters long'] },
+  zipCode: { type: String, required: true, minlength: [5, 'Zipcode must be at least 10 characters long'] },
+  phoneNumber: { type: String, required: true, minlength: [5, 'Phone number must be at least 10 characters long'] },
 }, { timestamps: true });
 
 const userModel = mongoose.model('User', userSchema);

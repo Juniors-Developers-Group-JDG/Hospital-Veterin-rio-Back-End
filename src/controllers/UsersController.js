@@ -93,7 +93,7 @@ class UsersController {
   async forgotPassword(req, res) {
     const { email } = req.body;
     const userExists = await User.findByEmail(email);
-    if (!userExists) return res.status(500).json({ error: 'Email not found' });
+    if (!userExists) return res.status(500).json({ error: 'Email not found.' });
     const jwtSecret = process.env.JWT_SECRET;
     const secret = jwtSecret + userExists.password;
     const payload = {
