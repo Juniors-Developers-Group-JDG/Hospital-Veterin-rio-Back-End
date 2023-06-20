@@ -18,7 +18,7 @@ class PostsController {
       const userBD = await Users.findByName(body.author);
 
       if (!userBD) {
-        return res.status(404).json({ msg: 'you need to have a registered account to make an appointment;' });
+        return res.status(401).json({ msg: 'You need to be logged-in to create a post' });
       }
 
       const result = await Posts.create(userBD, body);
