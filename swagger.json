@@ -562,6 +562,252 @@
           }
         }
       }
+    },
+    "/posts": {
+      "get": {
+        "tags": ["Posts"],
+        "summary": "Get every post created.",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Post"
+                  }
+                },
+                "example": [
+                  {
+                    "author": "dc5c1e4a-0e83-11ee-be56-0242ac120002",
+                    "title": "Post one.",
+                    "content": "This is the app's first post.",
+                    "coments": [{
+                      "author": "dc5c1e4a-0e83-11ee-be56-0242ac120002",
+                      "content": "I loved it!"
+                    }]
+                  },
+                  {
+                    "author": "dc5c1e4a-0e83-11ee-be56-0242ac120002",
+                    "title": "Post two.",
+                    "content": "This is the app's second post.",
+                    "coments": [{
+                      "author": "dc5c1e4a-0e83-11ee-be56-0242ac120002",
+                      "content": "I loved it :)!"
+                    }]
+                  }
+                ]
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Posts"],
+        "summary": "Create a post.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Post"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created with success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Post"
+                },
+                "example": {
+                  "author": "dc5c1e4a-0e83-11ee-be56-0242ac120002",
+                  "title": "Post one.",
+                  "content": "This is the app's first post.",
+                  "coments": [{
+                    "author": "dc5c1e4a-0e83-11ee-be56-0242ac120002",
+                    "content": "I loved it!"
+                  }]
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not authorized"
+          }
+        }
+      }
+    },
+    "/post/{id}": {
+      "delete": {
+        "tags": ["Posts"],
+        "summary": "Delete a post.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/post/{id}/content": {
+      "patch": {
+        "tags": ["Posts"],
+        "summary": "Edit a post's content.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/post/{id}/title": {
+      "patch": {
+        "tags": ["Posts"],
+        "summary": "Edit a post's title.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "title": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
+    },
+    "/post/{id}/comments": {
+      "put": {
+        "tags": ["Posts"],
+        "summary": "Add a comment to a post.",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "uuid"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "comment": {
+                    "type": "object",
+                    "properties": {
+                      "author": {
+                        "type": "uuid"
+                      },
+                      "content": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successful operation"
+          },
+          "400": {
+            "description": "Bad Request"
+          },
+          "404": {
+            "description": "Not found"
+          }
+        }
+      }
     }
   },
   "components": {
@@ -637,6 +883,34 @@
         "email",
         "password"
       ]
+    },
+    "Post": {
+      "type": "object",
+      "properties": {
+        "author": {
+          "type": "uuid"
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "comments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "author": {
+                "type": "uuid"
+              },
+              "content": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
     }
   },
     "securitySchemes":{
