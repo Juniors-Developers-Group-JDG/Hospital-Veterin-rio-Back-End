@@ -608,6 +608,7 @@
       },
       "post": {
         "tags": ["Posts"],
+        "security": [{"bearerAuth": []}],
         "summary": "Create a post.",
         "requestBody": {
           "required": true,
@@ -651,6 +652,7 @@
     "/post/{id}": {
       "delete": {
         "tags": ["Posts"],
+        "security": [{"bearerAuth": []}],
         "summary": "Delete a post.",
         "parameters": [
           {
@@ -762,6 +764,7 @@
     "/post/{id}/comments": {
       "put": {
         "tags": ["Posts"],
+        "security": [{"bearerAuth": []}],
         "summary": "Add a comment to a post.",
         "parameters": [
           {
@@ -914,7 +917,7 @@
         "content": {
           "type": "string"
         },
-        "comments": {
+        "coments": {
           "type": "array",
           "items": {
             "type": "object",
