@@ -808,7 +808,166 @@
           }
         }
       }
-    }
+    },
+
+    "/pets": {
+      "get": {
+        "tags": ["Pets"],
+        "summary": "Get all pets",
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Pet"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["Pets"],
+        "summary": "Create a new pet",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PetInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Pet created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/pets/{id}": {
+      "get": {
+        "tags": ["Pets"],
+        "summary": "Get a pet by ID",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the pet",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["Pets"],
+        "summary": "Update a pet",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "description": "ID of the pet",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PetInput"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Pet updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["Pets"],
+        "summary": "Delete a pet",
+        "parameters": [
+        {
+        "name": "id",
+        "in": "path",
+        "required": true,
+        "description": "ID of the pet",
+        "schema": {
+        "type": "string"
+        }
+        }
+        ],
+        "responses": {
+        "200": {
+        "description": "Pet deleted successfully"
+        },
+        "404": {
+        "description": "Pet not found"
+        },
+        "500": {
+        "description": "Internal server error"
+        }
+        }
+        }
+        }
+    
   },
   "components": {
     "schemas":{
@@ -902,6 +1061,32 @@
         "password"
       ]
     },
+    "Pet": {
+      "type": "object",
+      "properties": {
+      "id": {
+      "type": "string"
+      },
+      "name": {
+      "type": "string"
+      },
+      "age": {
+      "type": "number"
+      },
+      "breed": {
+      "type": "string"
+      },
+      "weight": {
+      "type": "number"
+      },
+      "owner": {
+      "type": "string"
+      },
+      "species": {
+      "type": "string"
+      }
+      }
+      },
     "Post": {
       "type": "object",
       "properties": {
@@ -929,7 +1114,32 @@
           }
         }
       }
-    }
+    },
+
+    "PetInput": {
+      "type": "object",
+      "properties": {
+      "name": {
+      "type": "string"
+      },
+      "age": {
+      "type": "number"
+      },
+      "breed": {
+      "type": "string"
+      },
+      "weight": {
+      "type": "number"
+      },
+      "owner": {
+      "type": "string"
+      },
+      "species": {
+      "type": "string"
+      }
+      },
+      "required": ["name", "age", "breed", "weight", "owner", "species"]
+      }
   },
     "securitySchemes":{
       "bearerAuth": {
