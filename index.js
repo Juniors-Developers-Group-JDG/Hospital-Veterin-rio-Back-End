@@ -9,6 +9,7 @@ import swaggerDocument from './swagger.json' assert { type: "json" };
 import PostsRoutes from './src/routes/postsRoutes.js';
 import SchedulingRoutes from './src/routes/schedulingRoutes.js';
 import usersRoutes from './src/routes/usersRoutes.js';
+import petsRputes from './src/routes/petsRoutes.js';
 
 dotenv.config();
 const app = express();
@@ -27,6 +28,7 @@ app.set('view engine', 'ejs')
 
 
 // ROUTES
+app.use('/', petsRputes);
 app.use('/schedules', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
 app.use('/', usersRoutes);
