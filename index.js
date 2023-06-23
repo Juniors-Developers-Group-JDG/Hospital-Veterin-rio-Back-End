@@ -26,6 +26,7 @@ app.use(bodyParser.json());
 
 //EJS CONFIG
 app.set('view engine', 'ejs')
+app.use(cors())
 
 
 // ROUTES
