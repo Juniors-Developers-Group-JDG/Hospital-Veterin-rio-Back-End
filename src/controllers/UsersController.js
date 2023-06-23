@@ -16,13 +16,13 @@ class UsersController {
       name, email, password, streetAddress, zipCode, phoneNumber,
     } = req.body;
 
-    // const salt = bcrypt.genSaltSync(12);
-    // const hashedPassword = bcrypt.hashSync(password, salt);
+    const salt = bcrypt.genSaltSync(12);
+    const hashedPassword = bcrypt.hashSync(password, salt);
 
     const result = await User.create(
       name,
       email,
-      password,
+      hashedPassword,
       streetAddress,
       zipCode,
       phoneNumber,
