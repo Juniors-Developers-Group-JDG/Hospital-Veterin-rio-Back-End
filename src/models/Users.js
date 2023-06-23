@@ -24,7 +24,6 @@ class User {
 
   async create(name, email, password, streetAddress, zipCode, phoneNumber) {
     try {
-      console.log(name);
       const result = await userModel.create({
         name,
         email,
