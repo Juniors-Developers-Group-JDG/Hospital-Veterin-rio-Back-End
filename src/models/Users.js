@@ -35,7 +35,6 @@ class User {
       });
       return result;
     } catch (error) {
-      console.log(error);
       return { msg: error.message };
     }
   }
