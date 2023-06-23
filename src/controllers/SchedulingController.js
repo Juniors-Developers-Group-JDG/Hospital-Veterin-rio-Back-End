@@ -1,5 +1,6 @@
 import Scheduling from '../models/Scheduling.js';
 import Users from '../models/Users.js';
+import Pets from '../models/Pets.js';
 
 class SchedulingController {
   async getAllSchedules(req, res) {
@@ -13,12 +14,19 @@ class SchedulingController {
     } = req.body;
     const userBD = await Users.findByName(name);
     if (!userBD) {
-      return res.status(404).json({ msg: 'you need to have a registered account to make an appointment;' });
+      return res.status(404).json({ msg: 'you need to have a registered account to make an appointment.' });
+    }
+    const petBD = await Pets.findByName(petName);
+    if (!petBD) {
+      return res.status(404).json({ msg: 'this pet is not registered in the database.' });
+    }
+    if (petBD.owner[0].name !== name) {
+      return res.status(404).json({ msg: 'this pet does not belong to this owner.' });
     }
     try {
       const result = await Scheduling.create(
         userBD,
-        petName,
+        petBD.name,
 
         specialty,
 

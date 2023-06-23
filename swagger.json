@@ -866,6 +866,41 @@
         }
       }
     },
+    "/searchPet/{name}":{
+      "get": {
+        "tags": ["Pets"],
+        "summary": "Get a pet by name",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "required": true,
+            "description": "name of the pet",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successful operation",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Pet"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pet not found"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
     "/pets/{id}": {
       "get": {
         "tags": ["Pets"],
@@ -970,7 +1005,7 @@
         }
         }
         }
-    
+
   },
   "components": {
     "schemas":{
@@ -1083,7 +1118,21 @@
       "type": "number"
       },
       "owner": {
-      "type": "string"
+        "type": "array",
+        "items": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string"
+            },
+            "email": {
+              "type": "string"
+            },
+            "id": {
+              "type":"string"
+            }
+          }
+        }
       },
       "species": {
       "type": "string"
@@ -1094,7 +1143,21 @@
       "type": "object",
       "properties": {
         "author": {
-          "type": "uuid"
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "id": {
+                "type":"string"
+              }
+            }
+          }
         },
         "title": {
           "type": "string"
@@ -1107,11 +1170,14 @@
           "items": {
             "type": "object",
             "properties": {
-              "author": {
-                "type": "uuid"
-              },
-              "content": {
+              "name": {
                 "type": "string"
+              },
+              "email": {
+                "type": "string"
+              },
+              "id": {
+                "type":"string"
               }
             }
           }

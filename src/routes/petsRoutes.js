@@ -9,6 +9,8 @@ router.post('/pets', petController.create);
 
 router.get('/pets/:id', petController.findById);
 
+router.get('/searchPet/:name', petController.findByName);
+
 router.put('/pets/:id', petController.update);
 
 router.delete('/pets/:id', petController.delete);

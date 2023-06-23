@@ -9,13 +9,13 @@ import swaggerDocument from './swagger.json' assert { type: "json" };
 import PostsRoutes from './src/routes/postsRoutes.js';
 import SchedulingRoutes from './src/routes/schedulingRoutes.js';
 import usersRoutes from './src/routes/usersRoutes.js';
-import petsRputes from './src/routes/petsRoutes.js';
+import petsRoutes from './src/routes/petsRoutes.js';
 
 dotenv.config();
 const app = express();
 // MONGODB CONFIG
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://bkdVet:bkdVet2023@clustervet.lcn4fm8.mongodb.net/').then(() => {
+mongoose.connect(process.env.MONGO_CONNECTION).then(() => {
   console.log('conectado ao banco');
 });
 
@@ -28,12 +28,12 @@ app.set('view engine', 'ejs')
 
 
 // ROUTES
-app.use('/', petsRputes);
+app.use('/', petsRoutes);
 app.use('/schedules', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
 app.use('/', usersRoutes);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log('servidor ON');
 });

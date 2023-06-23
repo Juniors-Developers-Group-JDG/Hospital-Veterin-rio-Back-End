@@ -1,4 +1,5 @@
 import Pet from '../models/Pets.js';
+import Users from '../models/Users.js';
 
 class PetController {
   async index(req, res) {
@@ -14,7 +15,11 @@ class PetController {
     const {
       name, age, breed, weight, owner, species,
     } = req.body;
-    const pet = await Pet.create(name, age, breed, weight, owner, species);
+    const userBD = await Users.findByName(owner);
+    if (!userBD) {
+      return res.status(401).json({ msg: 'There is no owner with that name registered in the system.' });
+    }
+    const pet = await Pet.create(userBD, name, age, breed, weight, species);
     res.status(201).json(pet);
   }
 
@@ -32,13 +37,27 @@ class PetController {
     }
   }
 
+  async findByName(req, res) {
+    try {
+      const { name } = req.params;
+      const pet = await Pet.findByName(name);
+      if (!pet) {
+        res.status(404).json({ message: 'Pet not found' });
+      } else {
+        res.status(200).json(pet);
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
   async update(req, res) {
     try {
       const { id } = req.params;
       const {
-        name, age, breed, weight, owner, species,
+        name, age, breed, weight, species,
       } = req.body;
-      const pet = await Pet.update(id, name, age, breed, weight, owner, species);
+      const pet = await Pet.update(id, name, age, breed, weight, species);
       if (!pet) {
         res.status(404).json({ message: 'Pet not found' });
       } else {

@@ -1,11 +1,15 @@
 import mongoose from 'mongoose';
 
 const petSchema = new mongoose.Schema({
+  owner: [{
+    ownerID: { type: mongoose.Types.ObjectId, ref: 'User' },
+    name: { type: String },
+    email: { type: String },
+  }],
   name: { type: String, required: true, minlength: [3, 'O nome precisa ter no minimo 3 caracteres'] },
   age: { type: Number, required: true, minlength: [1, 'A idade precisa ter no minimo 1 caracteres'] },
   breed: { type: String, required: true, minlength: [3, 'A raça precisa ter no minimo 3 caracteres'] },
   weight: { type: Number, required: true, minlength: [1, 'O peso precisa ter no minimo 1 caracteres'] },
-  owner: { type: String, required: true, minlength: [3, 'O nome do dono precisa ter no minimo 3 caracteres'] },
   species: { type: String, required: true, minlength: [3, 'A espécie precisa ter no minimo 3 caracteres'] },
 }, { timestamps: true });
 
@@ -21,14 +25,19 @@ class Pet {
     }
   }
 
-  async create(name, age, breed, weight, owner, species) {
+  async create(owner, name, age, breed, weight, species) {
     try {
+      const ownerBD = {
+        _id: owner._id,
+        name: owner.name,
+        email: owner.email,
+      };
       const result = await petModel.create({
         name,
         age,
         breed,
         weight,
-        owner,
+        owner: ownerBD,
         species,
       });
       return result;
@@ -46,14 +55,24 @@ class Pet {
     }
   }
 
-  async update(id, name, age, breed, weight, owner, species) {
+  async findByName(name) {
+    try {
+      const pet = await petModel.findOne({
+        where: name,
+      });
+      return pet;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
+  async update(id, name, age, breed, weight, species) {
     try {
       const pet = await petModel.findByIdAndUpdate(id, {
         name,
         age,
         breed,
         weight,
-        owner,
         species,
       });
       return pet;
