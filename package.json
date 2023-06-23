@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "dev": "nodemon index.js",
-    "lint": "eslint src/",
-    "build": "node index.js"
+    "lint": "eslint src/"
   },
   "type": "module",
   "repository": {
