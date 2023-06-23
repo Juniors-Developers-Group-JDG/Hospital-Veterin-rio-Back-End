@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 // MONGODB CONFIG
 mongoose.set('strictQuery', true);
-mongoose.connect('mongodb+srv://bkdVet:bkdVet2023@clustervet.lcn4fm8.mongodb.net/').then(() => {
+mongoose.connect(process.env.MONGO_CONNECTION).then(() => {
   console.log('conectado ao banco');
 });
 
@@ -36,6 +36,6 @@ app.use('/posts', PostsRoutes);
 app.use('/', usersRoutes);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
-app.listen(3000, () => {
+app.listen(process.env.PORT || 5000, () => {
   console.log('servidor ON');
 });

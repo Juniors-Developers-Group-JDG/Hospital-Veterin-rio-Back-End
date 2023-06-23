@@ -4,7 +4,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 class JWTService {
   constructor() {
-    this.secret = 'JDGBKD';
+    this.secret = process.env.JWT_SECRET;
     this.JWT_CONFIG = {
       algorithm: 'HS256',
       expiresIn: '1h',
