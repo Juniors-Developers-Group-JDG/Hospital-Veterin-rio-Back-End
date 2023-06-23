@@ -101,7 +101,7 @@ class UsersController {
       email: userExists.email,
     };
     const token = jwt.sign(payload, secret, { expiresIn: '2h' });
-    const link = `http://localhost:3000/resetpassword/${userExists.id}/${token}`;
+    const link = `hospital-veteririo-back-end-production.up.railway.app/resetpassword/${userExists.id}/${token}`;
 
     const resend = new Resend('re_hhTmtY9S_A9izkcxd4krNkHcCp8rzCUDz');
 

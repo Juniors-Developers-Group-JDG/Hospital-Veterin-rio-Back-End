@@ -14,7 +14,7 @@
       "description": "testing local"
     },
     {
-      "url": "https://apiintersala-production.up.railway.app",
+      "url": "hospital-veteririo-back-end-production.up.railway.app",
       "description": "API in Production"
     }
   ],
