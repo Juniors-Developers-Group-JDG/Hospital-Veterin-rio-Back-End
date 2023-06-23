@@ -2,8 +2,8 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import express from 'express';
 import mongoose from 'mongoose';
-import cors from 'cors'
-import ejs from 'ejs'
+import cors from 'cors';
+import ejs from 'ejs';
 import swaggerUI from 'swagger-ui-express';
 import swaggerDocument from './swagger.json' assert { type: "json" };
 
@@ -33,7 +33,7 @@ app.set('view engine', 'ejs')
 app.use('/', petsRoutes);
 app.use('/schedules', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
-app.use('/', usersRoutes);
+app.use('/user', usersRoutes);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.listen(process.env.PORT || 5000, () => {
