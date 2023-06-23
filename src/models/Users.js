@@ -23,12 +23,11 @@ class User {
   }
 
   async create(name, email, password, streetAddress, zipCode, phoneNumber) {
-    const hashedPassword = await bcrypt.hash(password, 10);
     try {
       const result = await userModel.create({
         name,
         email,
-        password: hashedPassword,
+        password,
         streetAddress,
         zipCode,
         phoneNumber,

@@ -15,7 +15,8 @@ class UsersController {
     const {
       name, email, password, streetAddress, zipCode, phoneNumber,
     } = req.body;
-    const result = await User.create(name, email, password, streetAddress, zipCode, phoneNumber);
+    const hashedPassword = await bcrypt.hash(password, 10);
+    const result = await User.create(name, email, hashedPassword, streetAddress, zipCode, phoneNumber);
     return res.status(200).json(result);
   }
 
