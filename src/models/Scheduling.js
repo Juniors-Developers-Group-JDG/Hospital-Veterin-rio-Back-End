@@ -3,11 +3,7 @@ import moment from 'moment';
 import validateSchedule from '../utils/validateSchedule.js';
 
 const schedulingSchema = new mongoose.Schema({
-  name: [{
-    nameID: { type: mongoose.Types.ObjectId, ref: 'User' },
-    name: { type: String },
-    email: { type: String },
-  }],
+  name: { type: String, required: true, minlength: [1, 'Enter a name for your pet.'] },
   petName: { type: String, required: true, minlength: [1, 'Enter a name for your pet.'] },
   specialty: { type: String, required: true, minlength: [1, 'Enter a specialty.'] },
   symptoms: { type: String, require: true, minlength: [10, 'Symptoms must be at least 10 characters long'] },
@@ -38,13 +34,13 @@ class Scheduling {
       }
       try {
         const closingTime = moment(startTime).add(1, 'hour');
-        const user = {
-          _id: name._id,
-          email: name.email,
-          name: name.name,
-        };
+        // const user = {
+        //   _id: name._id,
+        //   email: name.email,
+        //   name: name.name,
+        // };
         const result = await schedulingModel.create({
-          name: user,
+          name,
           petName,
           specialty,
           symptoms,
