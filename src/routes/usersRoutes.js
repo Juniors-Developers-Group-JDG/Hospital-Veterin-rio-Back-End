@@ -14,5 +14,8 @@ routes.get('/user/:id', UsersController.findById);
 routes.get('/users/:name', UsersController.findByName);
 routes.delete('/user/:id', UsersController.delete);
 routes.put('/user/:id', UsersController.update);
+routes.get('/test', (req, res) => {
+  res.render('recoverPassword.ejs');
+});
 
 export default routes;
