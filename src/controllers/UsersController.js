@@ -1,8 +1,9 @@
 import jwt from 'jsonwebtoken';
-import { Resend } from 'resend';
+// import { Resend } from 'resend';
 import { config } from 'dotenv';
 import bcrypt from 'bcrypt';
 import User from '../models/Users.js';
+import emailSender from '../utils/emailSender.js';
 
 config();
 class UsersController {
@@ -103,26 +104,25 @@ class UsersController {
 
   async forgotPassword(req, res) {
     const { email } = req.body;
-    const userExists = await User.findByEmail(email);
-    if (!userExists) return res.status(500).json({ error: 'Email not found.' });
-    const jwtSecret = process.env.JWT_SECRET;
-    const secret = jwtSecret + userExists.password;
-    const payload = {
-      name: userExists.name,
-      email: userExists.email,
-    };
-    const token = jwt.sign(payload, secret, { expiresIn: '2h' });
-    const link = `https://jdgbkd-production.up.railway.app/resetpassword/${userExists.id}/${token}`;
-
-    const resend = new Resend('re_hhTmtY9S_A9izkcxd4krNkHcCp8rzCUDz');
-
-    resend.emails.send({
-      from: 'onboarding@resend.dev',
-      to: userExists.email,
-      subject: 'Password Recovery',
-      html: `<p>Follow the link for password recovery ${link}</p>`,
-    });
-    res.status(200).json({ msg: 'The link has been sent to your email.' });
+    try {
+      const userExists = await User.findByEmail(email);
+      if (!userExists) return res.status(500).json({ error: 'Email not found.' });
+      const jwtSecret = process.env.JWT_SECRET;
+      const secret = jwtSecret + userExists.password;
+      const payload = {
+        name: userExists.name,
+        email: userExists.email,
+      };
+      const token = jwt.sign(payload, secret, { expiresIn: '2h' });
+      const link = `https://jdgbkd-production.up.railway.app/resetpassword/${userExists.id}/${token}`;
+      const emailSend = await emailSender(userExists.email, link);
+      if (emailSend) {
+        return res.status(200).json('enviado');
+      }
+    } catch (error) {
+      console.log(error);
+      return res.status(404).json('erro');
+    }
   }
 
   async resetPassword(req, res) {
