@@ -16,7 +16,7 @@ dotenv.config();
 const app = express();
 // MONGODB CONFIG
 mongoose.set('strictQuery', true);
-mongoose.connect("mongodb://mongo:oGdQHSQARIdoi2d2XogH@containers-us-west-140.railway.app:6124").then(() => {
+mongoose.connect(process.env.MONGO_CONNECTION).then(() => {
   console.log('conectado ao banco');
 });
 
