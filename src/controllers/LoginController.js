@@ -17,7 +17,8 @@ class LoginController {
       }
 
       const token = JWTService.createToken({ email, password });
-      return res.status(200).json({ token });
+
+      return res.status(200).json({ token, name: user.user.name, email: user.user.email });
     } catch (error) {
       return res.status(500).json({ error: error.message });
     }
