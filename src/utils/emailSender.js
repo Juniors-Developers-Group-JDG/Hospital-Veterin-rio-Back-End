@@ -1,18 +1,27 @@
-import { Resend } from 'resend';
+import nodemailer from 'nodemailer';
 
-const resend = new Resend('re_dVZsGim5_4Xp4JPUmQ6bTTJuvBEnkRn2g');
+const transporter = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: 'veterinariobackend@gmail.com',
+    pass: 'khnnbgeapzjkbcce',
+  },
+  debug: true,
+});
 
-export default async function emailSender(email, link) {
+async function sendEmail(email, link) {
   try {
-    const data = resend.emails.send({
-      from: 'jdgvet.free.nf',
-      to: [email],
-      subject: 'Password Recovery',
-      html: `<p>Follow the link for password recovery ${link}</p>`,
+    const mailSent = await transporter.sendMail({
+      from: 'Equipe JDG <veterinariobackend@gmail.com>',
+      to: email,
+      text: `Segue o link para a alteração da senha: ${link}`,
+      subject: 'Alteração de senha',
     });
-    return data;
+    return mailSent;
   } catch (error) {
     console.log(error);
     return false;
   }
 }
+
+export default sendEmail;

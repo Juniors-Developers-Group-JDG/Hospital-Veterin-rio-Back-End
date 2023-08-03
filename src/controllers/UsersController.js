@@ -114,14 +114,14 @@ class UsersController {
         email: userExists.email,
       };
       const token = jwt.sign(payload, secret, { expiresIn: '2h' });
-      const link = `https://jdgbkd-production.up.railway.app/resetpassword/${userExists.id}/${token}`;
-      const emailSend = await emailSender(userExists.email, link);
-      if (emailSend) {
-        return res.status(200).json('enviado');
+      const link = `https://jdg-site-vet.onrender.com/resetpassword/${userExists.id}/${token}`;
+      const send = await emailSender(email, link);
+      if (send) {
+        res.status(200).json({ msg: 'Message sent successfully.' });
       }
     } catch (error) {
       console.log(error);
-      return res.status(404).json('erro');
+      return res.status(404).json({ msg: 'Error sending message.' });
     }
   }
 

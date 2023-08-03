@@ -7,7 +7,7 @@ const routes = new Router();
 routes.post('/login', LoginController.login);
 routes.get('/getAllUsers', UsersController.getAllUsers);
 routes.post('/createUser', UsersController.createUser);
-// routes.post('/recoverPassword', UsersController.forgotPassword);
+routes.post('/recoverPassword', UsersController.forgotPassword);
 routes.get('/resetpassword/:id/:token', UsersController.resetPassword);
 routes.post('/resetpassword/:id/:token', UsersController.changePassword);
 routes.get('/user/:id', UsersController.findById);
