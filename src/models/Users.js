@@ -3,7 +3,9 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
   name: { type: String, required: true, minlength: [3, 'Name must be at least 10 characters long'] },
-  email: { type: String, required: true, minlength: [5, 'Emails must be at least 10 characters long'] },
+  email: {
+    type: String, required: true, unique: true, minlength: [5, 'Emails must be at least 10 characters long'],
+  },
   password: { type: String, required: true, minlength: [5, 'Password must be at least 10 characters long'] },
   streetAddress: { type: String, required: true, minlength: [5, 'Street Adrress must be at least 10 characters long'] },
   zipCode: { type: String, required: true, minlength: [5, 'Zipcode must be at least 10 characters long'] },
