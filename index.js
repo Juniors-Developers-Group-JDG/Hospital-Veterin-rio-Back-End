@@ -4,13 +4,18 @@ import express from 'express';
 import mongoose from 'mongoose';
 import cors from 'cors';
 // import ejs from 'ejs';
-// import swaggerUI from 'swagger-ui-express';
-// import swaggerDocument from './swagger.json' assert { type: "json" };
+import swaggerUI from 'swagger-ui-express';
+import { createRequire } from 'node:module';
+// import swaggerDocument from './swagger.json';
 
 import PostsRoutes from './src/routes/postsRoutes.js';
 import SchedulingRoutes from './src/routes/schedulingRoutes.js';
 import usersRoutes from './src/routes/usersRoutes.js';
 import petsRoutes from './src/routes/petsRoutes.js';
+
+const require = createRequire(import.meta.url);
+
+const swaggerDocument = require('./swagger.json');
 
 dotenv.config();
 const app = express();
@@ -34,7 +39,7 @@ app.use('/', petsRoutes);
 app.use('/schedules', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
 app.use('/', usersRoutes);
-// app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
+app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 
 app.listen(process.env.PORT || 5000, () => {
   console.log('servidor ON');
