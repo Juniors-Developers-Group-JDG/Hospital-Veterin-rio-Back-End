@@ -19,6 +19,7 @@ class PetController {
     if (!userBD) {
       return res.status(401).json({ msg: 'There is no owner with that name registered in the system.' });
     }
+
     const pet = await Pet.create(userBD, name, age, breed, weight, species);
     res.status(201).json(pet);
   }

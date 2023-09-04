@@ -1,11 +1,11 @@
 import mongoose from 'mongoose';
 
 const petSchema = new mongoose.Schema({
-  owner: [{
+  owner: {
     ownerID: { type: mongoose.Types.ObjectId, ref: 'User' },
     name: { type: String },
     email: { type: String },
-  }],
+  },
   name: { type: String, required: true, minlength: [3, 'O nome precisa ter no minimo 3 caracteres'] },
   age: { type: Number, required: true, minlength: [1, 'A idade precisa ter no minimo 1 caracteres'] },
   breed: { type: String, required: true, minlength: [3, 'A raça precisa ter no minimo 3 caracteres'] },
@@ -57,9 +57,7 @@ class Pet {
 
   async findByName(name) {
     try {
-      const pet = await petModel.findOne({
-        where: name,
-      });
+      const pet = await petModel.find({ name }).populate('owner.ownerID');
       return pet;
     } catch (error) {
       return { msg: error.message };

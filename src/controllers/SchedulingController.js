@@ -16,19 +16,15 @@ class SchedulingController {
     if (!userBD) {
       return res.status(404).json({ msg: 'you need to have a registered account to make an appointment.' });
     }
-    console.log(userBD);
     const petBD = await Pets.findByName(petName);
-    if (!petBD) {
-      return res.status(404).json({ msg: 'this pet is not registered in the database.' });
-    }
-    console.log(petBD.owner[0].name);
-    if (petBD.owner[0].name !== name) {
-      return res.status(404).json({ msg: 'this pet does not belong to this owner.' });
-    }
+    // if (!petBD) {
+    //   return res.status(404).json({ msg: 'this pet is not registered in the database.' });
+    // }
+
     try {
       const result = await Scheduling.create(
         userBD,
-        petBD.name,
+        petBD[0].name,
 
         specialty,
 
