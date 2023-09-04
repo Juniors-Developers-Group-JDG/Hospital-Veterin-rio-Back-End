@@ -40,7 +40,9 @@ app.use('/schedules', SchedulingRoutes);
 app.use('/posts', PostsRoutes);
 app.use('/', usersRoutes);
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
-
+app.get('/', (req, res) => {
+  res.send('API Running!');
+});
 app.listen(process.env.PORT || 5000, () => {
   console.log('servidor ON');
 });

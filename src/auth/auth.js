@@ -7,7 +7,7 @@ class JWTService {
     this.secret = process.env.JWT_SECRET;
     this.JWT_CONFIG = {
       algorithm: 'HS256',
-      expiresIn: '1h',
+      expiresIn: '7d',
     };
   }
 
