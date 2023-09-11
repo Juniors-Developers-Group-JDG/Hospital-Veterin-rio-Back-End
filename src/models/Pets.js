@@ -8,9 +8,9 @@ const petSchema = new mongoose.Schema({
   },
   name: { type: String, required: true, minlength: [3, 'O nome precisa ter no minimo 3 caracteres'] },
   age: { type: Number, required: true, minlength: [1, 'A idade precisa ter no minimo 1 caracteres'] },
-  breed: { type: String, required: true, minlength: [3, 'A raça precisa ter no minimo 3 caracteres'] },
+  breed: { type: String, required: false, minlength: [3, 'A raça precisa ter no minimo 3 caracteres'] },
   weight: { type: Number, required: true, minlength: [1, 'O peso precisa ter no minimo 1 caracteres'] },
-  species: { type: String, required: true, minlength: [3, 'A espécie precisa ter no minimo 3 caracteres'] },
+  species: { type: String, required: false, minlength: [3, 'A espécie precisa ter no minimo 3 caracteres'] },
 }, { timestamps: true });
 
 const petModel = mongoose.model('Pet', petSchema);
