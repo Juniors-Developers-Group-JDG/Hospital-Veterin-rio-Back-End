@@ -9,6 +9,7 @@ const schedulingSchema = new mongoose.Schema({
     email: { type: String },
   }],
   petName: { type: String, required: true, minlength: [1, 'Enter a name for your pet.'] },
+  breed: { type: String, required: false, minlength: [3, 'A raça precisa ter no minimo 3 caracteres'] },
   specialty: { type: String, required: true, minlength: [1, 'Enter a specialty.'] },
   symptoms: { type: String, require: true, minlength: [10, 'Symptoms must be at least 10 characters long'] },
   startTime: { type: Date, required: true },
@@ -30,7 +31,7 @@ class Scheduling {
     }
   }
 
-  async create(name, petName, specialty, symptoms, startTime, scheduleDate) {
+  async create(name, petName, specialty, breed, symptoms, startTime, scheduleDate) {
     const schedulesBD = await schedulingModel.find({ scheduleDate });
     if (schedulesBD) {
       if (!validateSchedule(schedulesBD, startTime)) {
@@ -47,6 +48,7 @@ class Scheduling {
           name: user,
           petName,
           specialty,
+          breed,
           symptoms,
           startTime,
           closingTime,
