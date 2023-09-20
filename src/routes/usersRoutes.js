@@ -1,6 +1,6 @@
 import { Router } from 'express';
-import UsersController from '../controllers/UsersController.js';
 import LoginController from '../controllers/LoginController.js';
+import UsersController from '../controllers/UsersController.js';
 
 const routes = new Router();
 
@@ -14,5 +14,6 @@ routes.get('/user/:id', UsersController.findById);
 routes.get('/users/:name', UsersController.findByName);
 routes.delete('/user/:id', UsersController.delete);
 routes.put('/user/:id', UsersController.update);
+routes.patch('/user/:id', UsersController.patch);
 
 export default routes;

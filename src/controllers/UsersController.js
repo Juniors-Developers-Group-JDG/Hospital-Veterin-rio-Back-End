@@ -1,7 +1,7 @@
 import jwt from 'jsonwebtoken';
 // import { Resend } from 'resend';
-import { config } from 'dotenv';
 import bcrypt from 'bcrypt';
+import { config } from 'dotenv';
 import User from '../models/Users.js';
 import emailSender from '../utils/emailSender.js';
 
@@ -91,6 +91,25 @@ class UsersController {
         streetAddress,
         zipCode,
         phoneNumber,
+      );
+      if (!result) {
+        res.status(404).json({ error: 'User not found' });
+      } else {
+        res.json({ message: 'User updated successfully' });
+      }
+    } catch (error) {
+      res.status(500).json({ error: error.message });
+    }
+  }
+
+  async patch(req, res) {
+    const { id } = req.params;
+    const { body } = req;
+
+    try {
+      const result = await User.update(
+        id,
+        ...body,
       );
       if (!result) {
         res.status(404).json({ error: 'User not found' });
