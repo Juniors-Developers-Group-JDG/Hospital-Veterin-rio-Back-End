@@ -106,15 +106,12 @@ class UsersController {
     const { id } = req.params;
     const { body } = req;
 
-    const { name } = body;
-
     try {
-      const user = (await User.findById(id)).toObject();
+      // const user = await User.findById(id);
 
-      const result = await User.update(
-        ...user,
+      const result = await User.updatePartial(
         id,
-        name,
+        body,
       );
       if (!result) {
         res.status(404).json({ error: 'User not found' });

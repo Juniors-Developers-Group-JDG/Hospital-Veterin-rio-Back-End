@@ -93,6 +93,19 @@ class User {
     }
   }
 
+  async updatePartial(id, user) {
+    try {
+      const result = await userModel.findByIdAndUpdate(
+        id,
+        user,
+      );
+
+      return result;
+    } catch (error) {
+      return { msg: error.message };
+    }
+  }
+
   async updatePassword(id, password) {
     try {
       await userModel.findByIdAndUpdate(id, { password });
