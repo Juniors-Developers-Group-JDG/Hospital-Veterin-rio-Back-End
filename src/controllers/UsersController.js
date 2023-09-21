@@ -109,7 +109,7 @@ class UsersController {
     const { name } = body;
 
     try {
-      const user = await User.findById(id);
+      const user = (await User.findById(id)).toObject();
 
       const result = await User.update(
         ...user,
