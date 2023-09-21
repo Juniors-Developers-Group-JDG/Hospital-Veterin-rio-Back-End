@@ -106,10 +106,12 @@ class UsersController {
     const { id } = req.params;
     const { body } = req;
 
+    const { name } = body;
+
     try {
       const result = await User.update(
         id,
-        ...body,
+        name,
       );
       if (!result) {
         res.status(404).json({ error: 'User not found' });
