@@ -180,7 +180,8 @@ class UsersController {
       jwt.verify(token, secret);
       const hashedPassword = await bcrypt.hash(password, 10);
       const result = await User.updatePassword(userExists.id, hashedPassword);
-      res.json(result);
+      console.log(result);
+      res.redirect('https://hospital-veteririo-front-end-gray.vercel.app/login');
     } catch (error) {
       res.status(401).json({ msg: error.message });
     }
